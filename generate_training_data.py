@@ -491,6 +491,7 @@ def main():
                 return any(char.isdigit() for char in inputString)
             inp = " ".join([k for k in idf_dict.keys() if not hasNumbers(k)])
             spacy_nlp = spacy.load('pt_core_news_sm')
+            spacy_nlp.max_length = 1500000
             inp_results = [(token.text, token.tag_) for token in spacy_nlp(inp[:1000000])]
             allowed_tags = ['VB','NN','JJ','RB']   # UH for "yes", "no", etc.
             ignored_words = ['estão','estavam','be','é','são','sou',"'s","'re"] + ['do','did','done','does'] # verb of no info
@@ -515,6 +516,7 @@ def main():
                 return any(char.isdigit() for char in inputString)
             inp = " ".join([k for k in idf_dict.keys() if not hasNumbers(k)])
             spacy_nlp = spacy.load('pt_core_news_sm')
+            spacy_nlp.max_length = 1500000
             inp_results = [(token.text, token.tag_) for token in spacy_nlp(inp[:1000000])]
             allowed_tags = ['VB','NN','JJ','RB']   # UH for "yes", "no", etc.
             ignored_words = ['estão','estavam','be','é','são','sou',"'s","'re"] + ['do','did','done','does'] # verb of no info
