@@ -360,6 +360,8 @@ def partitionIndexes(totalsize, numberofpartitions):
         a = b
 
 def main():
+    nltk.download("stopwords")
+
     parser = ArgumentParser()
     parser.add_argument('--train_corpus', type=Path, required=True)
     parser.add_argument("--output_dir", type=Path, required=True)
@@ -479,7 +481,7 @@ def main():
 
 
         if args.token_value == "tf-idf-stop":
-            stop_words = set(stopwords.words('english') )
+            stop_words = set(stopwords.words('portuguese') )
             for t in stop_words:
                 if t in idf_dict: 
                     idf_dict[t] *= 0.001
@@ -487,10 +489,10 @@ def main():
             def hasNumbers(inputString):
                 return any(char.isdigit() for char in inputString)
             inp = " ".join([k for k in idf_dict.keys() if not hasNumbers(k)])
-            spacy_nlp = spacy.load('en_core_web_sm')
+            spacy_nlp = spacy.load('pt_core_news_sm')
             inp_results = [(token.text, token.tag_) for token in spacy_nlp(inp[:1000000])]
             allowed_tags = ['VB','NN','JJ','RB']   # UH for "yes", "no", etc.
-            ignored_words = ['was','were','be','is','are','am',"'s","'re"] + ['do','did','done','does'] # verb of no info
+            ignored_words = ['estão','estavam','be','é','são','sou',"'s","'re"] + ['do','did','done','does'] # verb of no info
             for word, tag in inp_results:
                 if word in idf_dict.keys():
                     if len(tag)>=2 and tag[:2] in allowed_tags and (word not in ignored_words):
@@ -500,7 +502,7 @@ def main():
                             idf_dict[word] *= 2
 
         elif args.token_value == "df-stop":
-            stop_words = set(stopwords.words('english') ) | set(['[SEP]', '[PAD]', '[CLS]', 'the', 'of', 'and', 'in', 'a', 'to', 'was', 'is', '"', 'for', 'on', 'as', 'with', 'by', 'he', "'s", 'at', 'that', 'from', 'it', 'his', 'an', 'which', 's', '.', ',', '(', ')',"'", '%'])  
+            stop_words = set(stopwords.words('portuguese') ) | set(['[SEP]', '[PAD]', '[CLS]', 'o', 'de', 'e', 'em', 'um', 'para', 'era', 'estava', 'é', '"', 'for', 'on', 'como', 'com', 'por', 'ele', "'s", 'no', 'que', 'de', 'isso', 'dele', 'an', 'which', 's', '.', ',', '(', ')',"'", '%'])  
             for k in idf_dict.keys():
                 idf_dict[k] = 1.0/(idf_dict[k] + 1e-5)
             
@@ -511,10 +513,10 @@ def main():
             def hasNumbers(inputString):
                 return any(char.isdigit() for char in inputString)
             inp = " ".join([k for k in idf_dict.keys() if not hasNumbers(k)])
-            spacy_nlp = spacy.load('en_core_web_sm')
+            spacy_nlp = spacy.load('pt_core_news_sm')
             inp_results = [(token.text, token.tag_) for token in spacy_nlp(inp[:1000000])]
             allowed_tags = ['VB','NN','JJ','RB']   # UH for "yes", "no", etc.
-            ignored_words = ['was','were','be','is','are','am',"'s","'re"] + ['do','did','done','does'] # verb of no info
+            ignored_words = ['estão','estavam','be','é','são','sou',"'s","'re"] + ['do','did','done','does'] # verb of no info
             for word, tag in inp_results:
                 if word in idf_dict.keys():
                     if len(tag)>=2 and tag[:2] in allowed_tags and (word not in ignored_words):
