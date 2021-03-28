@@ -407,7 +407,7 @@ def main():
     if args.num_workers > 1 and args.reduce_memory:
         raise ValueError("Cannot use multiple workers while reducing memory")
 
-    tokenizer = BertTokenizerFast.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
+    tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
     if tokenizer._noi_token is None:
         tokenizer._noi_token = '[NOI]'
         if args.bert_model == 'bert-base-uncased':
