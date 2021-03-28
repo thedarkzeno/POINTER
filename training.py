@@ -15,10 +15,10 @@ from tqdm import tqdm
 import pdb
 
 
-from transformers import WEIGHTS_NAME, CONFIG_NAME, BertForMaskedLM
-from transformers import BertForPreTraining
-from transformers import BertTokenizerFast
-from transformers import AdamW, WarmupLinearSchedule
+from pytorch_transformers import WEIGHTS_NAME, CONFIG_NAME, BertForMaskedLM
+from pytorch_transformers.modeling_bert import BertForPreTraining
+from pytorch_transformers.tokenization_bert import BertTokenizer
+from pytorch_transformers.optimization import AdamW, WarmupLinearSchedule
 
 NUM_PAD = 3
 
@@ -245,7 +245,7 @@ def main():
   
     while True:
         try:
-            tokenizer = BertTokenizerFast.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
+            tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
             if tokenizer._noi_token is None:
                 tokenizer._noi_token = '[NOI]'
                 if args.bert_model == 'bert-base-uncased' or 'bert-large-uncased' :
