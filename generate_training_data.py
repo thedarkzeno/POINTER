@@ -24,6 +24,7 @@ import spacy
 import yake
 import re
 from nltk.tokenize import TweetTokenizer
+import nltk
 logger = logging.getLogger(__name__)
 
 CUTOFF = 5
