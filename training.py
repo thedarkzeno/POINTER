@@ -15,10 +15,10 @@ from tqdm import tqdm
 import pdb
 
 
-from pytorch_transformers import WEIGHTS_NAME, CONFIG_NAME, BertForMaskedLM
-from pytorch_transformers.modeling_bert import BertForPreTraining
-from pytorch_transformers.tokenization_bert import BertTokenizer
-from pytorch_transformers.optimization import AdamW, WarmupLinearSchedule
+from transformers import WEIGHTS_NAME, CONFIG_NAME, BertForMaskedLM
+from transformers import BertForPreTraining
+from transformers import BertTokenizerFaster
+from transformers import AdamW, WarmupLinearSchedule
 
 NUM_PAD = 3
 

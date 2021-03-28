@@ -6,7 +6,7 @@ import shelve
 from multiprocessing import Pool
 
 from random import random, randrange, randint, shuffle, choice
-from pytorch_transformers.tokenization_bert import BertTokenizer
+from transformers import BertTokenizerFast
 import numpy as np
 import json
 import collections
@@ -412,10 +412,10 @@ def main():
         tokenizer._noi_token = '[NOI]'
         if args.bert_model == 'bert-base-uncased':
             tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused0]')
-        elif args.bert_model == 'bert-base-cased':
-            tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused1]')
         else:
-            raise ValueError("No clear choice for insert NOI for tokenizer type {}".format(args.model_name_or_path))
+            tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused1]')
+        # else:
+        #     raise ValueError("No clear choice for insert NOI for tokenizer type {}".format(args.model_name_or_path))
         tokenizer.ids_to_tokens[1] = '[NOI]'
         logger.info("Adding [NOI] to the vocabulary 1")
 
