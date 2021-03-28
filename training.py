@@ -17,7 +17,7 @@ import pdb
 
 from transformers import WEIGHTS_NAME, CONFIG_NAME, BertForMaskedLM
 from transformers import BertForPreTraining
-from transformers import BertTokenizerFaster
+from transformers import BertTokenizerFast
 from transformers import AdamW, WarmupLinearSchedule
 
 NUM_PAD = 3
@@ -245,15 +245,15 @@ def main():
   
     while True:
         try:
-            tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
+            tokenizer = BertTokenizerFast.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
             if tokenizer._noi_token is None:
                 tokenizer._noi_token = '[NOI]'
                 if args.bert_model == 'bert-base-uncased' or 'bert-large-uncased' :
                     tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused0]')
-                elif args.bert_model == 'bert-base-cased':
-                    tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused1]')
                 else:
-                    raise ValueError("No clear choice for insert NOI for tokenizer type {}".format(args.model_name_or_path))
+                    tokenizer.vocab['[NOI]'] = tokenizer.vocab.pop('[unused1]')
+                # else:
+                #     raise ValueError("No clear choice for insert NOI for tokenizer type {}".format(args.model_name_or_path))
                 tokenizer.ids_to_tokens[1] = '[NOI]'
                 logger.info("Adding [NOI] to the vocabulary 1")
         except:
